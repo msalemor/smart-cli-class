@@ -114,7 +114,7 @@ User Story - Setting singleton
   - You should be able to load the mytool.json settings 
   - The apps should fail if any of the json parameters are
 
-- [Code](/3-settings)
+- [Code](/2-settings)
 
 ### 6.3 - Structures
 
@@ -133,7 +133,7 @@ Criteria:
   - Make sure the application compiles: `go build .`
 
 
-code: [](/4-structures)
+- [Code](/3-structures/)
 
 ### 6.4 - Executing terminal commands
 
@@ -143,7 +143,7 @@ User Story - Command execution
 - Create function called `ProcessCommands(commands *Commands)`
 - Use `cmd := exec.Command(command.Command, command.Args...)`
 
-code: [](/6-process)
+- [Code](/4-process/)
 
 ### 6.5 - Calling OpenAI chat completion with a REST post request
 
@@ -178,7 +178,7 @@ User Story - Kubernetes Subcommand
   - You should be able to get the help for the subcommand `go run . az --help`
 
 
-- [Code](/2-azcmd)
+- [Code](/6-azcmd/)
 
 
 ### 6.7 - The final product
