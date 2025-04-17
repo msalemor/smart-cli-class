@@ -95,28 +95,23 @@ User story - Root Command
 - All subcommand should take a required prompt argument
 - Create a the `main.go` file and call the rootcmd
 
-
 - Criteria:
   - You should be able to build go code and execute `go run . --help`
 
-
 - [Code](/1-rootcmd)
-
 
 ### 6.2- Settings
 
 User Story - Setting singleton
 
-- Create a setting singleton that reads the mytool.json file with the following settings:
+- Create a setting `pkg/settings.go` singleton that reads the `./mytool.json` file with the following settings:
   - endpoint, api_key, model, system_prompt
 - Create a structure to load these settings
 - Panic of these keys are not provided when the application starts
 
-
 - Criteria:
   - You should be able to load the mytool.json settings 
-  - The apps should fail if any of the json parameters are
-
+  - The apps should fail if any of the json parameters are missing
 
 - [Code](/2-settings)
 
@@ -133,10 +128,8 @@ User story - Required structures
   - Command (command:string,args:[]string,explanation)
   - Commands (Commands []Command)
 
-
 - Criteria:
   - Make sure the application compiles: `go build .`
-
 
 - [Code](/3-structures/)
 
@@ -147,6 +140,10 @@ User Story - Command execution
 - Create a `pkg/process.go` file to process the commands
 - Create function called `ProcessCommands(commands *Commands)`
 - Use `cmd := exec.Command(command.Command, command.Args...)`
+
+- Criteria:
+  - Create a mock commands structure
+  - Test it from main before starting the CLI
 
 - [Code](/4-process/)
 
@@ -170,7 +167,7 @@ cmds, _ := pkg.ChatCompletion("List all pods")
 fmt.println(cmds)
 ```
 
-code: [](/5-openai)
+- [Code](/5-openai)
 
 ### 6.6 - Cobra az subcommand
 
@@ -178,12 +175,10 @@ User Story - Kubernetes Subcommand
 
 - Add an Azure subcommand called `cmd/azcmd.go`
 - Add the subcommand to the roocmd
-- The the user calls this subcommand, it should call the chatcompletion, get a commands structure pointer, and pass this pointer to the ProcessCommands in `pkg/process.go`
-
+- When the user calls this subcommand, it should call the chatcompletion with the command prompt, get a commands structure pointer, and pass this pointer to the ProcessCommands in `pkg/process.go`
 
 - Criteria:
   - You should be able to get the help for the subcommand `go run . az --help`
-
 
 - [Code](/6-azcmd/)
 
