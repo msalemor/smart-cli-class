@@ -89,32 +89,21 @@ cd mytool && go mod init mytool
 
 [Cobra](https://github.com/spf13/cobra) is a Go package for building CLI application.
 
-Challenge 1:
+User story - Root Command
 
-- Create a root command called cmd/rootcmd.go
+- Create a root command called `cmd/rootcmd.go`
 - All subcommand should take a required prompt argument
+- Create a the `main.go` file and call the rootcmd
 
 - Criteria:
   - You should be able to build go code and execute `go run . --help`
 
 - [Code](/1-rootcmd)
 
-### 6.2 - Cobra az subcommand
 
-Challenge 2:
+### 6.2- Settings
 
-- Add an Azure subcommand called cmd/azcmd.go
-- Add the subcommand to the roocmd
-
-- Criteria:
-  - You should be able to get the help for the subcommand `go run . az --help`
-
-
-- [Code](/2-azcmd)
-
-### 6.3 - Settings
-
-Challenge 3:
+User Story - Setting singleton
 
 - Create a setting singleton that reads the mytool.json file with the following settings:
   - endpoint, api_key, model, system_prompt
@@ -125,11 +114,11 @@ Challenge 3:
   - You should be able to load the mytool.json settings 
   - The apps should fail if any of the json parameters are
 
-- [Code](/3-settings/README.md)
+- [Code](/3-settings)
 
-### 6.4 - Structures
+### 6.3 - Structures
 
-Challenge 4:
+User story - Required structures
 
 - Create the following structures at pkg/types.go:
   - Message (Role:string, Content:string)
@@ -144,13 +133,23 @@ Criteria:
   - Make sure the application compiles: `go build .`
 
 
-code: [](/4-structures/README.md)
+code: [](/4-structures)
+
+### 6.4 - Executing terminal commands
+
+User Story - Command execution
+
+- Create a `pkg/process.go` file to process the commands
+- Create function called `ProcessCommands(commands *Commands)`
+- Use `cmd := exec.Command(command.Command, command.Args...)`
+
+code: [](/6-process)
 
 ### 6.5 - Calling OpenAI chat completion with a REST post request
 
-Challenge:
+User Story - Call OpenAI Chat completion
 
-- Create a `pkg/openai.go` file and create a function called ChatCompletion to make a POST request.
+- Create a `pkg/openai.go` file and create a function called `ChatCompletion` to make a POST request to OpenAI.
 - This function should receive an OpenAIRequest and return a pointer to the Commands object: `ChatCompletion(prompt string) (*Commands, error)`
 - Use the Setting singleton to get the endpoint, api key, mode, and system prompt
 - To call OpenAI use the OpenAIRequest structure
@@ -165,16 +164,22 @@ cmds, _ := pkg.ChatCompletion("List all pods")
 fmt.println(cmds)
 ```
 
-code: [](/5-openai/README.md)
+code: [](/5-openai)
 
-### 6.6 - Executing terminal commands
+### 6.6 - Cobra az subcommand
 
-Challenge:
-- Create a `pkg/process.go` file to process the commands
-- Create function called `ProcessCommands(commands *Commands)`
-- Use `cmd := exec.Command(command.Command, command.Args...)`
+User Story - Kubernetes Subcommand
 
-code: [](/6-process/README.md)
+- Add an Azure subcommand called `cmd/azcmd.go`
+- Add the subcommand to the roocmd
+- The the user calls this subcommand, it should call the chatcompletion, get a commands structure pointer, and pass this pointer to the ProcessCommands in `pkg/process.go`
+
+- Criteria:
+  - You should be able to get the help for the subcommand `go run . az --help`
+
+
+- [Code](/2-azcmd)
+
 
 ### 6.7 - The final product
 
