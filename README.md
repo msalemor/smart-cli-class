@@ -1,15 +1,22 @@
-# smart-cli-class
+# Class: Building a smart CLI
 
 Building a smart command-line interface application using OpenAI and Go
 
-## 1.0 - My rules
+## 1.0 - Requirements
+
+- Go knowledge
+- OpenAI endpoint and key
+- A kubernetes cluster and Kubectl installed
+
+
+## 2.0 - My rules
 
 - Always start in the playground
 - Calling an LLM is easy what is difficult is the everything else
 - He or she who can stuff the prompt gets the riches
 - In prompt engineering a prompt can be though of as a semantic program
 
-## 2.0 - Foundational concepts
+## 3.0 - Foundational concepts
 
 - Calling an LLMs with REST
 - Context window
@@ -20,12 +27,6 @@ Building a smart command-line interface application using OpenAI and Go
     - user
     - assistant
 - OpenAI text vs json_mode
-
-## 3.0 - Requirements
-
-- Go knowledge
-- OpenAI endpoint and key
-- A kubernetes cluster and Kubectl installed
 
 ## 4.0 - What are we building?
 
