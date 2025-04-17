@@ -92,12 +92,12 @@ cd mytool && go mod init mytool
 Challenge 1:
 
 - Create a root command called cmd/rootcmd.go
-- The command should take a required prompt 
+- All subcommand should take a required prompt argument
 
 - Criteria:
   - You should be able to build go code and execute `go run . --help`
 
-code: [](/1-rootcmd/README.md)
+- [Code](/1-rootcmd)
 
 ### 6.2 - Cobra az subcommand
 
@@ -110,7 +110,7 @@ Challenge 2:
   - You should be able to get the help for the subcommand `go run . az --help`
 
 
-code: [](/2-azcmd/README.md)
+- [Code](/2-azcmd)
 
 ### 6.3 - Settings
 
@@ -125,7 +125,7 @@ Challenge 3:
   - You should be able to load the mytool.json settings 
   - The apps should fail if any of the json parameters are
 
-code: [](/3-settings/README.md)
+- [Code](/3-settings/README.md)
 
 ### 6.4 - Structures
 
