@@ -87,25 +87,90 @@ cd mytool && go mod init mytool
 
 ### 6.1 - Cobra root command
 
+Challenge 1:
+
+- Create a root command called cmd/rootcmd.go
+- The command should take a required prompt 
+
+- Criteria:
+  - You should be able to build go code and execute `go run . --help`
+
 code: [](/1-rootcmd/)
 
 ### 6.2 - Cobra az subcommand
+
+Challenge 2:
+
+- Add an Azure subcommand called cmd/azcmd.go
+- Add the subcommand to the roocmd
+
+- Criteria:
+  - You should be able to get the help for the subcommand `go run . az --help`
+
 
 code: [](/2-azcmd/)
 
 ### 6.3 - Settings
 
+Challenge 3:
+
+- Create a setting singleton that reads the mytool.json file with the following settings:
+  - endpoint, api_key, model, system_prompt
+- Create a structure to load these settings
+- Panic of these keys are not provided when the application starts
+
+- Criteria:
+  - You should be able to load the mytool.json settings 
+  - The apps should fail if any of the json parameters are
+
 code: [](/3-settings/)
 
 ### 6.4 - Structures
+
+Challenge 4:
+
+- Create the following structures at pkg/types.go:
+  - Message (Role:string, Content:string)
+  - Choice (Id:string, Message:Message)
+  - ResponseFormat (Type string)
+  - OpenAIRequest(Messages []Message, Model string, ResponseFormat ResponseFormat, Temperature float)
+  - OpenAIResponse(Choices []Choices)
+  - Command (command:string,args:[]string,explanation)
+  - Commands (Commands []Command)
+
+Criteria:
+  - Make sure the application compiles: `go build .`
+
 
 code: [](/4-structures/)
 
 ### 6.5 - Calling OpenAI chat completion with a REST post request
 
+Challenge:
+
+- Create a `pkg/openai.go` file and create a function called ChatCompletion to make a POST request.
+- This function should receive an OpenAIRequest and return a pointer to the Commands object: `ChatCompletion(prompt string) (*Commands, error)`
+- Use the Setting singleton to get the endpoint, api key, mode, and system prompt
+- To call OpenAI use the OpenAIRequest structure
+- To receive the respose from OpenAI use the OpenAIResponse structure
+- Convert the actual response into a pointer to the Commands structure
+
+Criteria:
+  - You should be able to test a completion by
+  - In main.go before calling the CLI type: 
+```go
+cmds, _ := pkg.ChatCompletion("List all pods")
+fmt.println(cmds)
+```
+
 code: [](/5-openai/)
 
 ### 6.6 - Executing terminal commands
+
+Challenge:
+- Create a `pkg/process.go` file to process the commands
+- Create function called `ProcessCommands(commands *Commands)`
+- Use `cmd := exec.Command(command.Command, command.Args...)`
 
 code: [](/6-process/)
 
