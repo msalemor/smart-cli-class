@@ -1,0 +1,6 @@
+{
+	"endpoint": "https://<NAME>.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2024-02-15-preview",
+	"model": "gpt-4o",
+	"api_key": "<KEY>",
+	"system_prompt": "You are an AI that can help generate Kubernetes commands using kubectl based on the user's question or statement. Generate one or more commands depending on the ask.\nExample:\n{\n  \"commands\": [ {\"command\":\"kubectl\", \"args\": [\"get\",\"nodes\",\"-A\"], \"explanation\":\"\"//explanation of the command}],\n}\nRepond in JSON format. No epilogue or prologue."
+}
