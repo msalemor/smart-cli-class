@@ -87,6 +87,8 @@ cd mytool && go mod init mytool
 
 ### 6.1 - Cobra root command
 
+[Cobra](https://github.com/spf13/cobra) is a Go package for building CLI application.
+
 Challenge 1:
 
 - Create a root command called cmd/rootcmd.go
