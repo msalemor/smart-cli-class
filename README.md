@@ -95,8 +95,10 @@ User story - Root Command
 - All subcommand should take a required prompt argument
 - Create a the `main.go` file and call the rootcmd
 
+
 - Criteria:
   - You should be able to build go code and execute `go run . --help`
+
 
 - [Code](/1-rootcmd)
 
@@ -110,9 +112,11 @@ User Story - Setting singleton
 - Create a structure to load these settings
 - Panic of these keys are not provided when the application starts
 
+
 - Criteria:
   - You should be able to load the mytool.json settings 
   - The apps should fail if any of the json parameters are
+
 
 - [Code](/2-settings)
 
@@ -129,7 +133,8 @@ User story - Required structures
   - Command (command:string,args:[]string,explanation)
   - Commands (Commands []Command)
 
-Criteria:
+
+- Criteria:
   - Make sure the application compiles: `go build .`
 
 
@@ -156,7 +161,8 @@ User Story - Call OpenAI Chat completion
 - To receive the respose from OpenAI use the OpenAIResponse structure
 - Convert the actual response into a pointer to the Commands structure
 
-Criteria:
+
+- Criteria:
   - You should be able to test a completion by
   - In main.go before calling the CLI type: 
 ```go
@@ -174,12 +180,12 @@ User Story - Kubernetes Subcommand
 - Add the subcommand to the roocmd
 - The the user calls this subcommand, it should call the chatcompletion, get a commands structure pointer, and pass this pointer to the ProcessCommands in `pkg/process.go`
 
+
 - Criteria:
   - You should be able to get the help for the subcommand `go run . az --help`
 
 
 - [Code](/6-azcmd/)
-
 
 ### 6.7 - The final product
 
