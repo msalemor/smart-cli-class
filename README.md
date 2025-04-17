@@ -8,17 +8,16 @@ Building a smart command-line interface application using OpenAI and Go
 - OpenAI endpoint and key
 - A kubernetes cluster and Kubectl installed
 
-
 ## 2.0 - My rules
 
 - Always start in the playground
 - Calling an LLM is easy what is difficult is the everything else
-- He or she who can stuff the prompt gets the riches
-- In prompt engineering a prompt can be though of as a semantic program
+- He or she who can prompt engineer and stuff the prompt gets the riches
+- In prompt engineering a prompt can be though of as a semantic program (input, instructions, output)
 
 ## 3.0 - Foundational concepts
 
-- Calling an LLMs with REST
+- Calling an LLMs with REST over using SDK
 - Context window
 - Instruct vs chat completion model
 - Chat conversation management
@@ -26,11 +25,25 @@ Building a smart command-line interface application using OpenAI and Go
     - system
     - user
     - assistant
-- OpenAI text vs json_mode
+- OpenAI response format: text vs json_object
 
 ## 4.0 - What are we building?
 
-mytool az -p "List the running nodes"
+```bash
+mytool -p "List all nodes"
+```
+
+### Expected result
+
+```bash
+Running Kubernetes commands with prompt: List all nodes
+About to execute: kubectl [get nodes] -> This command lists all the nodes in the Kubernetes cluster.
+Do you want to proceed? (y/n): 
+y
+Executing: kubectl [get nodes]
+Output: NAME                 STATUS   ROLES           AGE     VERSION
+kind-control-plane   Ready    control-plane   2m25s   v1.32.2
+```
 
 ## 5.0 - Steps we will follow today
 
