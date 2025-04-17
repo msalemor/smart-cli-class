@@ -95,7 +95,7 @@ Challenge 1:
 - Criteria:
   - You should be able to build go code and execute `go run . --help`
 
-code: [](/1-rootcmd/)
+code: [](/1-rootcmd/README.md)
 
 ### 6.2 - Cobra az subcommand
 
@@ -108,7 +108,7 @@ Challenge 2:
   - You should be able to get the help for the subcommand `go run . az --help`
 
 
-code: [](/2-azcmd/)
+code: [](/2-azcmd/README.md)
 
 ### 6.3 - Settings
 
@@ -123,7 +123,7 @@ Challenge 3:
   - You should be able to load the mytool.json settings 
   - The apps should fail if any of the json parameters are
 
-code: [](/3-settings/)
+code: [](/3-settings/README.md)
 
 ### 6.4 - Structures
 
@@ -142,7 +142,7 @@ Criteria:
   - Make sure the application compiles: `go build .`
 
 
-code: [](/4-structures/)
+code: [](/4-structures/README.md)
 
 ### 6.5 - Calling OpenAI chat completion with a REST post request
 
@@ -163,7 +163,7 @@ cmds, _ := pkg.ChatCompletion("List all pods")
 fmt.println(cmds)
 ```
 
-code: [](/5-openai/)
+code: [](/5-openai/README.md)
 
 ### 6.6 - Executing terminal commands
 
@@ -172,11 +172,11 @@ Challenge:
 - Create function called `ProcessCommands(commands *Commands)`
 - Use `cmd := exec.Command(command.Command, command.Args...)`
 
-code: [](/6-process/)
+code: [](/6-process/README.md)
 
 ### 6.7 - The final product
 
-Code: [Final code](/7-final/)
+Code: [Final code](/7-final/README.md)
 
 > Note: How far can you go?
 > Most of this code was created with this command: `cai scaffold -p "Create a Go cobra cli called mytool. Create a root command (cmd/rootcmd.go) in the cmd folder, and run the command from main.go. Create subcommand called cmd/azcmd.go to run kubernetes commands and add it to root command. The cli should require one parameter called prompt for all subcommands. Create a pkg folder and create four files. One should create a pkg/types.go file to have a request (prompt:string) and response (commands:[]commands,command{command:string, args:[]string, explanation:string}) objects. The other file should be pkg/openai.go to call a chat completion using a rest post command with the request and response objects. Call the third file, pkg/settings.go. This file should be able to read openai.json file using godotenv, create a structure (endpoint:string,apikey:string,system_prompt:string,prompt:string), and expose the settings a a singleton. Create pkg/process.go. This file should receive a command structure and show process each command using exec.command."`
