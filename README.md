@@ -11,7 +11,7 @@ Building a smart command-line interface application using OpenAI and Go
 
 ## Foundational concepts
 
-- Calling an LLM with REST
+- Calling an LLMs with REST
 - Context window
 - Instruct vs chat completion model
 - Chat conversation management
