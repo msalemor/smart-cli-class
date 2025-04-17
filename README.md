@@ -48,7 +48,8 @@ List all pods in all the namespaces.
 ```
 
 ### Project structure
-- create the following structure
+
+Create the following structure:
 ```bash
 mkdir mytool
 mkdir -p mytool/cmd
@@ -60,13 +61,15 @@ touch pkg/openai.go
 ```
 
 ### Create the go module
-- Create a go module
+
+Create a go module
 ```bash
 cd mytool && go mod init mytool
 ```
 
 ### Create the cobra CLI
 
+- with cai: `cai scaffold -p "Create a Go cobra cli called mytool. Create a root command (cmd/rootcmd.go) in the cmd folder, and run the command from main.go. Create subcommand called cmd/azcmd.go to run kubernetes commands and add it to root command. The cli should require one parameter called prompt for all subcommands. Create a pkg folder and create three files. One should create a pkg/types.go file to have a request (prompt:string) and response (commands:[]commands,command{command:string, args:[]string, explanation:string}) objects. The other file should be pkg/openai.go to call a chat completion using a rest post command with the request and response objects. Call the third file, pkg/settings.go. This file should be able to read openai.json file using godotenv, create a structure (endpoint:string,apikey:string,system_prompt:string,prompt:string), and expose the settings a a singleton."`
 
 - Create a Cobra CLI shell
 - A structure to receive the command to be executed
