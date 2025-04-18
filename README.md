@@ -18,8 +18,12 @@ Building a smart command-line interface application using OpenAI and Go
 ## 3.0 - Foundational concepts
 
 - Calling an LLMs with REST over using SDK
+  - No package dependecies, supported in languages where packages may not be available, full control of performance, retries, etc.
 - Context window
+  - Used to be 8k now up to 128k and growing
 - Instruct vs chat completion model
+  - Instruct: prompt
+  - Chat: messages
 - Chat conversation management
   - Message types:
     - system
@@ -35,12 +39,14 @@ mytool -p "List all nodes"
 
 ### Expected result
 
-```bash
+```text
 Running Kubernetes commands with prompt: List all nodes
 About to execute: kubectl [get nodes] -> This command lists all the nodes in the Kubernetes cluster.
 Do you want to proceed? (y/n): 
 y
+
 Executing: kubectl [get nodes]
+
 Output: NAME                 STATUS   ROLES           AGE     VERSION
 kind-control-plane   Ready    control-plane   2m25s   v1.32.2
 ```
@@ -50,17 +56,37 @@ kind-control-plane   Ready    control-plane   2m25s   v1.32.2
 ### 5.1 - Playground
 
 - We will start in the playground
-  - Open M365 copilot and type:
+- Open M365 copilot and type:
 ```text
 system:
-You are an AI that can help generate Kubernetes commands using kubectl based on the user's question or statement. Generate one or more commands depending on the ask.
+You are an AI that can help generate Kubernetes commands using kubectl based on the user's question or statement. Generate one or more commands depending on the ask. If the request is unralted to kubernetes commands, do not generate anything.
 Example:
 {
   "commands": [ {"command":"kubectl", "args": ["get","nodes","-A"], "explanation":""//explanation of the command}],
 }
 Repond in JSON format. No epilogue or prologue.
+
 user:
-List all pods in all the namespaces.
+Create an nginx pod and expose it as a service.
+```
+
+#### Results
+
+```json
+{
+  "commands": [
+    {
+      "command": "kubectl",
+      "args": ["run", "nginx-pod", "--image=nginx"],
+      "explanation": "This command creates a new pod named 'nginx-pod' using the nginx image."
+    },
+    {
+      "command": "kubectl",
+      "args": ["expose", "pod", "nginx-pod", "--port=80", "--target-port=80", "--name=nginx-service"],
+      "explanation": "This command exposes the 'nginx-pod' as a service named 'nginx-service' on port 80."
+    }
+  ]
+}
 ```
 
 ### 5.2 - Project structure
@@ -95,7 +121,7 @@ cd mytool && go mod init mytool
 
 ## 6.0 - Creating the app
 
-### 6.1 - Cobra root command
+### 6.1 - Basic CLI
 
 [Cobra](https://github.com/spf13/cobra) is a Go package for building CLI application.
 
@@ -104,17 +130,16 @@ User story - Basic CLI
 As a user I need to be able to execute `mytool --help`.
 
 - Requirements:
-  - Create a root command called `cmd/rootcmd.go`
-  - All subcommand should take a required prompt argument
+  - Create a cobra root command called `cmd/rootcmd.go`
+  - All subcommand should take a required prompt argument `--prompt or -p`
   - Create a the `./main.go` file and call the rootcmd
 
 - Criteria:  
-  - You should be able to build go code and execute `go run . --help`
-  - The application compiles and runs: `go run . -- help`
+  - You should be able to build go code and execute `go run . --help`  
 
 - [Code](/1-rootcmd)
 
-### 6.2- Settings
+### 6.2- Global Setting
 
 User Story - Global Setting
 
@@ -122,31 +147,31 @@ As as an application, I need to be able to load the JSON settings.
 
 - Requirements:
   - Create a setting `pkg/settings.go` singleton that reads the `./mytool.json` file with the following settings:
-    - endpoint, api_key, model, system_prompt
+    - endpoint:string, api_key:string, model:string, system_prompt:string
   - Create a structure to load these settings
   - Panic of these keys are not provided when the application starts
   - Settings should be the first item that is loaded when the application runs
 
 - Criteria:  
   - Application should load the `./mytools.json` 
-  - The application should fail if any of the json parameters are missing
+  - The application fails if any of the settings are missing
   - The application compiles and runs: `go run . -- help`
 
 - [Code](/2-settings)
 
-### 6.3 - Structures
+### 6.3 - Required sstructures
 
 User story - Required sstructures
 
-As an application, I need to make the required structure available.
+As an application, I need to make the required supporting structure available to the application.
 
 - Requirements:
-  - Create the following structures at pkg/types.go:
+  - Create the following structures at `pkg/types.go`:
     - Message (Role:string, Content:string)
     - Choice (Id:string, Message:Message)
     - ResponseFormat (Type string)
     - OpenAIRequest(Messages []Message, Model string, ResponseFormat ResponseFormat, Temperature float)
-    - OpenAIResponse(Choices []Choices)
+    - OpenAIResponse(Choices []Choice)
     - Command (command:string,args:[]string,explanation)
     - Commands (Commands []Command)
 
@@ -155,9 +180,9 @@ As an application, I need to make the required structure available.
 
 - [Code](/3-structures/)
 
-### 6.4 - Executing terminal commands
+### 6.4 - Process commands execution
 
-User Story - Command execution
+User Story - Process commands execution
 
 As an application I need to execute terminal commands.
 
@@ -178,7 +203,7 @@ As an application I need to execute terminal commands.
 
 - [Code](/4-process/)
 
-### 6.5 - Calling OpenAI chat completion with a REST post request
+### 6.5 - Call OpenAI Chat completion
 
 User Story - Call OpenAI Chat completion
 
@@ -203,14 +228,14 @@ fmt.println(cmds)
 
 - [Code](/5-openai)
 
-### 6.6 - Cobra Kubernetes subcommand
+### 6.6 - Kubernetes Subcommand
 
 User Story - Kubernetes Subcommand
 
 As a user in need to be able to type `mytool az -p "Instructions"` and have the tool generate kubectl commands from my instructions and process the commands.
 
 - Requirements:  
-  - Add an Azure subcommand called `cmd/azcmd.go`
+  - Add a cobra subcommand called `cmd/azcmd.go`
   - Add the subcommand to the roocmd
   - When the user calls this subcommand, it should call the chatcompletion with the command prompt, get a commands structure pointer, and pass this pointer to the ProcessCommands in `pkg/process.go`
 
