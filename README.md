@@ -40,8 +40,7 @@ mytool -p "List all nodes"
 ### Expected result
 
 ```text
-About to execute: kubectl [get nodes] -> This command lists all the nodes in the Kubernetes cluster.
-
+Generated command: kubectl [get nodes] -> This command lists all the nodes in the Kubernetes cluster.
 Do you want to proceed? (y/n): 
 y
 

@@ -12,7 +12,7 @@ var azCmd = &cobra.Command{
 	Short: "Run Kubernetes commands",
 	Long:  "Run Kubernetes commands using the Azure CLI",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("Running Kubernetes commands with prompt: %s\n", prompt)
+		//fmt.Printf("Running Kubernetes commands with prompt: %s\n", prompt)
 		commands, err := pkg.ChatCompletion(prompt)
 		if err != nil {
 			fmt.Println("Error: ", err)

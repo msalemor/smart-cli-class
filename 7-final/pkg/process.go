@@ -13,7 +13,7 @@ func ProcessCommands(commands *Commands) {
 		return
 	}
 	for _, command := range commands.Commands {
-		color.Cyan("About to execute: %s %v -> %s\n", command.Command, command.Args, command.Explanation)
+		color.Cyan("\nGenerated command: %s %v -> %s\n", command.Command, command.Args, command.Explanation)
 		color.Yellow("Do you want to proceed? (y/n): ")
 
 		var response string
@@ -24,7 +24,7 @@ func ProcessCommands(commands *Commands) {
 			continue
 		}
 
-		fmt.Printf("Executing: %s %v\n", command.Command, command.Args)
+		fmt.Printf("\nExecuting: %s %v\n", command.Command, command.Args)
 		cmd := exec.Command(command.Command, command.Args...)
 		output, err := cmd.CombinedOutput()
 		if err != nil {
