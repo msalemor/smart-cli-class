@@ -40,8 +40,8 @@ mytool -p "List all nodes"
 ### Expected result
 
 ```text
-Running Kubernetes commands with prompt: List all nodes
 About to execute: kubectl [get nodes] -> This command lists all the nodes in the Kubernetes cluster.
+
 Do you want to proceed? (y/n): 
 y
 
@@ -55,15 +55,16 @@ kind-control-plane   Ready    control-plane   2m25s   v1.32.2
 
 ### 5.1 - Playground
 
-- We will start in the playground
-- Open M365 copilot and type:
+- We will start in the playground, open the M365 Copilot and copy and paste the following:
 ```text
 system:
 You are an AI that can help generate Kubernetes commands using kubectl based on the user's question or statement. Generate one or more commands depending on the ask. If the request is unralted to kubernetes commands, do not generate anything.
-Example:
+
+Response example:
 {
   "commands": [ {"command":"kubectl", "args": ["get","nodes","-A"], "explanation":""//explanation of the command}],
 }
+
 Repond in JSON format. No epilogue or prologue.
 
 user:
