@@ -72,8 +72,7 @@ mkdir -p mytool/cmd
 mkdir -p mytool/pkg
 cd mytool
 touch main.go
-touch cmd/root.go
-touch pkg/openai.go
+touch cmd/rootcmd.go
 ```
 
 ### 5.3 - Create the go module
@@ -81,6 +80,17 @@ touch pkg/openai.go
 Create a go module
 ```bash
 cd mytool && go mod init mytool
+```
+
+### 5.4 - Create a `./mytools.json` file
+
+```json
+{
+	"endpoint": "https://<NAME>.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2024-02-15-preview",
+	"model": "gpt-4o",
+	"api_key": "<KEY>",
+	"system_prompt": "You are an AI that can help generate Kubernetes commands using kubectl based on the user's question or statement. Generate one or more commands depending on the ask.\nExample:\n{\n  \"commands\": [ {\"command\":\"kubectl\", \"args\": [\"get\",\"nodes\",\"-A\"], \"explanation\":\"\"//explanation of the command}],\n}\nRepond in JSON format. No epilogue or prologue."
+}
 ```
 
 ## 6.0 - Creating the app
@@ -98,9 +108,9 @@ As a user I need to be able to execute `mytool --help`.
   - All subcommand should take a required prompt argument
   - Create a the `./main.go` file and call the rootcmd
 
-- Criteria:
-  - The application compiles: `go build .`
+- Criteria:  
   - You should be able to build go code and execute `go run . --help`
+  - The application compiles and runs: `go run . -- help`
 
 - [Code](/1-rootcmd)
 
@@ -117,10 +127,10 @@ As as an application, I need to be able to load the JSON settings.
   - Panic of these keys are not provided when the application starts
   - Settings should be the first item that is loaded when the application runs
 
-- Criteria:
-  - The application compiles: `go build .`
+- Criteria:  
   - Application should load the `./mytools.json` 
   - The application should fail if any of the json parameters are missing
+  - The application compiles and runs: `go run . -- help`
 
 - [Code](/2-settings)
 
@@ -128,7 +138,7 @@ As as an application, I need to be able to load the JSON settings.
 
 User story - Required sstructures
 
-As an application, I need to make the required application available.
+As an application, I need to make the required structure available.
 
 - Requirements:
   - Create the following structures at pkg/types.go:
@@ -141,7 +151,7 @@ As an application, I need to make the required application available.
     - Commands (Commands []Command)
 
 - Criteria:
-  - The application compiles: `go build .`
+  - The application compiles and runs: `go run . -- help`
 
 - [Code](/3-structures/)
 
@@ -155,11 +165,16 @@ As an application I need to execute terminal commands.
   - Create a `pkg/process.go` file to process the commands
   - Create function called `ProcessCommands(commands *Commands)`
   - Use `cmd := exec.Command(command.Command, command.Args...)`
+  - Use `github.com/fatih/color` to colorize the text
+    - Green: results
+    - Yellow: confirmations
+    - Orange: warnings
+    - Red: errors
 
-- Criteria:
-  - The application compiles: `go build .`
+- Criteria:  
   - Create a mock commands structure
   - Test it from main before starting the CLI
+  - The application compiles and runs: `go run . --help`
 
 - [Code](/4-process/)
 
@@ -172,28 +187,27 @@ As an application, I need to call OpenAI Chat completion to process a prompt and
 - Requirements:
   - Create a `pkg/openai.go` file and create a function called `ChatCompletion` to make a POST request to OpenAI.
   - This function should receive an OpenAIRequest and return a pointer to the Commands object: `ChatCompletion(prompt string) (*Commands, error)`
-  - Use the Setting singleton to get the endpoint, api key, mode, and system prompt
+  - Use the Setting singleton to get the endpoint, api key, model, and system prompt
   - To call OpenAI use the OpenAIRequest structure
   - To receive the respose from OpenAI use the OpenAIResponse structure
-  - Convert the actual response into a pointer to the Commands structure
-
+  - Convert the actual OpenAIResponse into a pointer to the Commands structure
 
 - Criteria:
-  - The application compiles: `go build .`
-  - You should be able to test a completion by
-  - In main.go before calling the CLI type: 
+  - You should be able to test a completion by adding in `main.go`
 ```go
 cmds, _ := pkg.ChatCompletion("List all pods")
 fmt.println(cmds)
 ```
+  - The application compiles and runs: `go run . --help`
+
 
 - [Code](/5-openai)
 
-### 6.6 - Cobra az subcommand
+### 6.6 - Cobra Kubernetes subcommand
 
 User Story - Kubernetes Subcommand
 
-As a user in need to be able to type `mytool az -p "Instructions"` and have the tool generate and process the commands.
+As a user in need to be able to type `mytool az -p "Instructions"` and have the tool generate kubectl commands from my instructions and process the commands.
 
 - Requirements:  
   - Add an Azure subcommand called `cmd/azcmd.go`
