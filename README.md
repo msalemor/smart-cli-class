@@ -89,47 +89,59 @@ cd mytool && go mod init mytool
 
 [Cobra](https://github.com/spf13/cobra) is a Go package for building CLI application.
 
-User story - Root Command
+User story - Basic CLI
 
-- Create a root command called `cmd/rootcmd.go`
-- All subcommand should take a required prompt argument
-- Create a the `main.go` file and call the rootcmd
+As a user I need to be able to execute `mytool --help`.
+
+- Requirements:
+  - Create a root command called `cmd/rootcmd.go`
+  - All subcommand should take a required prompt argument
+  - Create a the `./main.go` file and call the rootcmd
 
 - Criteria:
+  - The application compiles: `go build .`
   - You should be able to build go code and execute `go run . --help`
 
 - [Code](/1-rootcmd)
 
 ### 6.2- Settings
 
-User Story - Setting singleton
+User Story - Global Setting
 
-- Create a setting `pkg/settings.go` singleton that reads the `./mytool.json` file with the following settings:
-  - endpoint, api_key, model, system_prompt
-- Create a structure to load these settings
-- Panic of these keys are not provided when the application starts
+As as an application, I need to be able to load the JSON settings.
+
+- Requirements:
+  - Create a setting `pkg/settings.go` singleton that reads the `./mytool.json` file with the following settings:
+    - endpoint, api_key, model, system_prompt
+  - Create a structure to load these settings
+  - Panic of these keys are not provided when the application starts
+  - Settings should be the first item that is loaded when the application runs
 
 - Criteria:
-  - You should be able to load the mytool.json settings 
-  - The apps should fail if any of the json parameters are missing
+  - The application compiles: `go build .`
+  - Application should load the `./mytools.json` 
+  - The application should fail if any of the json parameters are missing
 
 - [Code](/2-settings)
 
 ### 6.3 - Structures
 
-User story - Required structures
+User story - Required sstructures
 
-- Create the following structures at pkg/types.go:
-  - Message (Role:string, Content:string)
-  - Choice (Id:string, Message:Message)
-  - ResponseFormat (Type string)
-  - OpenAIRequest(Messages []Message, Model string, ResponseFormat ResponseFormat, Temperature float)
-  - OpenAIResponse(Choices []Choices)
-  - Command (command:string,args:[]string,explanation)
-  - Commands (Commands []Command)
+As an application, I need to make the required application available.
+
+- Requirements:
+  - Create the following structures at pkg/types.go:
+    - Message (Role:string, Content:string)
+    - Choice (Id:string, Message:Message)
+    - ResponseFormat (Type string)
+    - OpenAIRequest(Messages []Message, Model string, ResponseFormat ResponseFormat, Temperature float)
+    - OpenAIResponse(Choices []Choices)
+    - Command (command:string,args:[]string,explanation)
+    - Commands (Commands []Command)
 
 - Criteria:
-  - Make sure the application compiles: `go build .`
+  - The application compiles: `go build .`
 
 - [Code](/3-structures/)
 
@@ -137,11 +149,15 @@ User story - Required structures
 
 User Story - Command execution
 
-- Create a `pkg/process.go` file to process the commands
-- Create function called `ProcessCommands(commands *Commands)`
-- Use `cmd := exec.Command(command.Command, command.Args...)`
+As an application I need to execute terminal commands.
+
+- Requirements:
+  - Create a `pkg/process.go` file to process the commands
+  - Create function called `ProcessCommands(commands *Commands)`
+  - Use `cmd := exec.Command(command.Command, command.Args...)`
 
 - Criteria:
+  - The application compiles: `go build .`
   - Create a mock commands structure
   - Test it from main before starting the CLI
 
@@ -151,15 +167,19 @@ User Story - Command execution
 
 User Story - Call OpenAI Chat completion
 
-- Create a `pkg/openai.go` file and create a function called `ChatCompletion` to make a POST request to OpenAI.
-- This function should receive an OpenAIRequest and return a pointer to the Commands object: `ChatCompletion(prompt string) (*Commands, error)`
-- Use the Setting singleton to get the endpoint, api key, mode, and system prompt
-- To call OpenAI use the OpenAIRequest structure
-- To receive the respose from OpenAI use the OpenAIResponse structure
-- Convert the actual response into a pointer to the Commands structure
+As an application, I need to call OpenAI Chat completion to process a prompt and get a completion.
+
+- Requirements:
+  - Create a `pkg/openai.go` file and create a function called `ChatCompletion` to make a POST request to OpenAI.
+  - This function should receive an OpenAIRequest and return a pointer to the Commands object: `ChatCompletion(prompt string) (*Commands, error)`
+  - Use the Setting singleton to get the endpoint, api key, mode, and system prompt
+  - To call OpenAI use the OpenAIRequest structure
+  - To receive the respose from OpenAI use the OpenAIResponse structure
+  - Convert the actual response into a pointer to the Commands structure
 
 
 - Criteria:
+  - The application compiles: `go build .`
   - You should be able to test a completion by
   - In main.go before calling the CLI type: 
 ```go
@@ -173,11 +193,15 @@ fmt.println(cmds)
 
 User Story - Kubernetes Subcommand
 
-- Add an Azure subcommand called `cmd/azcmd.go`
-- Add the subcommand to the roocmd
-- When the user calls this subcommand, it should call the chatcompletion with the command prompt, get a commands structure pointer, and pass this pointer to the ProcessCommands in `pkg/process.go`
+As a user in need to be able to type `mytool az -p "Instructions"` and have the tool generate and process the commands.
+
+- Requirements:  
+  - Add an Azure subcommand called `cmd/azcmd.go`
+  - Add the subcommand to the roocmd
+  - When the user calls this subcommand, it should call the chatcompletion with the command prompt, get a commands structure pointer, and pass this pointer to the ProcessCommands in `pkg/process.go`
 
 - Criteria:
+  - The application compiles: `go build .`
   - You should be able to get the help for the subcommand `go run . az --help`
 
 - [Code](/6-azcmd/)
