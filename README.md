@@ -250,5 +250,10 @@ As a user in need to be able to type `mytool az -p "Instructions"` and have the 
 
 Code: [Final code](/7-final)
 
-> Note: How far can you go?
+
+## 7.0 - Improvements
+
+- Add more CLIs (docker, az, azd, helm, etc.)
+- Add other abilities (scaffold code, code review, etc.)
+
 > Most of this code was created with this command: `cai scaffold -p "Create a Go cobra cli called mytool. Create a root command (cmd/rootcmd.go) in the cmd folder, and run the command from main.go. Create subcommand called cmd/azcmd.go to run kubernetes commands and add it to root command. The cli should require one parameter called prompt for all subcommands. Create a pkg folder and create four files. One should create a pkg/types.go file to have a request (prompt:string) and response (commands:[]commands,command{command:string, args:[]string, explanation:string}) objects. The other file should be pkg/openai.go to call a chat completion using a rest post command with the request and response objects. Call the third file, pkg/settings.go. This file should be able to read openai.json file using godotenv, create a structure (endpoint:string,apikey:string,system_prompt:string,prompt:string), and expose the settings a a singleton. Create pkg/process.go. This file should receive a command structure and show process each command using exec.command."`
