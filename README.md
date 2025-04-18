@@ -1,12 +1,12 @@
-# Class: Building a smart CLI
+# Class: Building a smart Go CLI application
 
-Building a smart command-line interface application using OpenAI and Go
+This is content for a class on building a smart command-line interface application using OpenAI and Go.
 
 ## 1.0 - Requirements
 
-- Go knowledge
+- Intro-intermediate Go knowledge
 - OpenAI endpoint and key
-- A kubernetes cluster and Kubectl installed
+- A kubernetes cluster and ability to execute kubectl commands
 
 ## 2.0 - My rules
 
@@ -253,8 +253,9 @@ Code: [Final code](/7-final)
 
 ## 7.0 - Improvements
 
-- Add more CLIs (docker, az, azd, helm, etc.)
+- Add more CLIs (docker, az, azd, azcopy, helm, etc.)
 - Add other abilities (scaffold code, code review, etc.)
+- Enhanced security, move to a package that support DefaultAzureCredentials
 
 - Most of this code was created with this command:
 
