@@ -12,9 +12,20 @@ func ProcessCommands(commands *Commands) {
 		fmt.Println("No commands to process")
 		return
 	}
+
+	color.Green("Generated commands...\n")
 	for _, command := range commands.Commands {
-		color.Cyan("\nGenerated command: %s %v -> %s\n", command.Command, command.Args, command.Explanation)
-		color.Yellow("Do you want to proceed? (y/n): ")
+		color.Cyan("%s %v -> %s\n", command.Command, command.Args, command.Explanation)
+	}
+
+	for _, command := range commands.Commands {
+
+		w := color.New(color.FgWhite)
+		w.Print("\nExecute command: ")
+
+		color.Cyan("%s %v\n", command.Command, command.Args)
+		y := color.New(color.FgYellow)
+		y.Print("Do you want to proceed? (y/n): ")
 
 		var response string
 		fmt.Scanln(&response)
