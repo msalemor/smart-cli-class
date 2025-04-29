@@ -23,6 +23,7 @@ func GetSettings() *Settings {
 	once.Do(func() {
 		settingsInstance = &Settings{}
 
+		// TODO: load from where the executable is running
 		data, err := os.ReadFile("/home/alex/temp/mytool/mytool.json")
 		if err != nil {
 			panic("Failed to read openai.json: " + err.Error())
