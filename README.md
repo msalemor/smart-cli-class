@@ -11,9 +11,9 @@ This is content for a class on building a smart command-line interface applicati
 ## 2.0 - My rules
 
 - Always start in the playground
-- Calling an LLM is easy what is difficult is the everything else
+- Calling an LLM is easy, what is difficult is the everything else (in this case Go programming)
 - He or she who can prompt engineer and stuff the prompt gets the riches
-- In prompt engineering a prompt can be though of as a semantic program (input, instructions, output)
+- In prompt engineering, a prompt can be though of as a semantic program (input, instructions, output)
 
 ## 3.0 - Foundational concepts
 
@@ -29,26 +29,23 @@ This is content for a class on building a smart command-line interface applicati
     - system
     - user
     - assistant
+    - [Diagram](https://github.com/msalemor/llm-use-cases/blob/main/images/context-chat-history.png)
 - OpenAI response format: text vs json_object
+
+### 3.1 - Approaches to Integrating LLMs
+
+| Approach | Pros | Cons | Use Cases |
+|----------|------|------|-----------|
+| **REST API** | - No dependencies<br>- Works in any language<br>- Full control over requests<br>- Easy to customize | - Requires manual error handling<br>- More boilerplate code<br>- Manual rate limiting | - Lightweight integrations<br>- Languages without official SDKs<br>- Custom retry logic needs |
+| **Azure/OpenAI SDK** | - Simplified API calls<br>- Built-in error handling<br>- Type safety<br>- Automatic retries | - Dependency on SDK version<br>- Less flexibility<br>- Limited to supported languages | - Standard applications<br>- Rapid development<br>- When type safety is important |
+| **AI Agents (Assistants API)** | - Persistent state<br>- Built-in memory & context<br>- Tool calling capabilities<br>- File handling | - Higher latency<br>- Less control over execution<br>- More complex setup | - Multi-turn conversations<br>- Knowledge-base applications<br>- Long-running assistants |
+| **Semantic Kernel** | - Component-based architecture<br>- Plugin system<br>- Memory & context management<br>- Cross-platform (C#, Python, Java) | - Additional abstraction layer<br>- Learning curve<br>- Overhead for simple use cases | - Enterprise applications<br>- Complex workflows<br>- Cross-platform scenarios<br>- Plugin-based architectures |
+| **AutoGen** | - Multi-agent orchestration<br>- Agent collaboration<br>- Human-in-the-loop support<br>- Autonomous workflows | - Steep learning curve<br>- Complex configuration<br>- Higher computational overhead | - Complex reasoning tasks<br>- Multi-step problem solving<br>- Research applications<br>- Agent-based systems |
 
 ## 4.0 - What are we building?
 
-```bash
-mytool -p "List all nodes"
-```
+![mytool running](images/mytool.png)
 
-### Expected result
-
-```text
-Generated command: kubectl [get nodes] -> This command lists all the nodes in the Kubernetes cluster.
-Do you want to proceed? (y/n): 
-y
-
-Executing: kubectl [get nodes]
-
-Output: NAME                 STATUS   ROLES           AGE     VERSION
-kind-control-plane   Ready    control-plane   2m25s   v1.32.2
-```
 
 ## 5.0 - Steps we will follow today
 
@@ -261,3 +258,7 @@ Code: [Final code](/7-final)
 ```bash
 cai scaffold -p "Create a Go cobra cli called mytool. Create a root command (cmd/rootcmd.go) in the cmd folder, and run the root command from `./main.go`. Create subcommand called `cmd/azcmd. go` to run kubernetes commands and add it to root command. The cli should require one parameter called `prompt` for all subcommands. Create a pkg folder and create four files. One should create a `pkg/types.go` file to structure for the following:. The other file should be `pkg/openai.go` to call a chat completion using a rest post command with the request and response objects. Call the third file, `pkg/settings.go`. This file should be able to read `mytool.json`, create a structure (endpoint:string,apikey:string,system_prompt:string,prompt:string), and expose the settings a a singleton. Create `pkg/process.go`. This file should receive a pointer to commands and process each command using exec.command."
 ```
+
+## 7.1 - What else
+
+![](images/drone.png)
